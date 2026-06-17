@@ -14,6 +14,8 @@ func main() {
 	switch os.Args[1] {
 	case "temp":
 		runConvert(convertTemp)
+	case "len":
+		runConvert(convertLength)
 	default:
 		fmt.Println("unknown command:", os.Args[1])
 		printUsage()
@@ -40,5 +42,5 @@ func runConvert(fn func(string, float64) (string, error)) {
 }
 
 func printUsage() {
-	fmt.Println("Usage: unit-converter <temp|len|weight> <conversion> <value>")
+	fmt.Println("usage: unit-converter <temp|len> <conversion> <value>")
 }
