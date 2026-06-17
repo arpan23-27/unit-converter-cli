@@ -40,5 +40,5 @@ func runConvert(fn func(string, float64) (string, error)) {
 }
 
 func printUsage() {
-	fmt.Println("Usage: unit-converter <temp|len|weight> <conversion> <value>")
+	fmt.Println("Usage: unit-converter [temp|len|weight] [conversion] [value]")
 }
