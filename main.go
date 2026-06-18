@@ -16,6 +16,8 @@ func main() {
 		runConvert(convertTemp)
 	case "len":
 		runConvert(convertLength)
+	case "weight": 
+	    runConvert(convertWeight)
 	default:
 		fmt.Println("unknown command:", os.Args[1])
 		printUsage()
