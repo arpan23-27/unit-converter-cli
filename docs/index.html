@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>unit-converter-cli demo</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="card">
+      <p class="eyebrow">Go learning project</p>
+      <h1>unit-converter-cli</h1>
+      <p class="subtitle">A tiny browser demo for the same conversions handled by the CLI.</p>
+
+      <div class="grid">
+        <label>
+          <span>Category</span>
+          <select id="category">
+            <option value="temp">Temperature</option>
+            <option value="len">Length</option>
+            <option value="weight">Weight</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Conversion</span>
+          <select id="mode"></select>
+        </label>
+
+        <label>
+          <span>Value</span>
+          <input id="value" type="number" step="any" placeholder="Enter a number" />
+        </label>
+      </div>
+
+      <button id="convert">Convert</button>
+
+      <section class="result" aria-live="polite">
+        <span class="result-label">Result</span>
+        <div id="output">100.0 C = 212.0 F</div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
