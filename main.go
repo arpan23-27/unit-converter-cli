@@ -4,45 +4,69 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func main() {
-	if len(os.Args) < 2 {
+	if len(os.Args) < 2 || isHelpArg(os.Args[1]) {
 		printUsage()
-		os.Exit(1)
+		return
 	}
-	switch os.Args[1] {
+
+	if len(os.Args) < 4 {
+		fail("missing arguments")
+	}
+
+	value, err := strconv.ParseFloat(os.Args[3], 64)
+	if err != nil {
+		fail(fmt.Sprintf("value must be a number: %s", os.Args[3]))
+	}
+
+	switch strings.ToLower(os.Args[1]) {
 	case "temp":
-		runConvert(convertTemp)
+		runConversion(convertTemp, os.Args[2], value)
 	case "len":
-		runConvert(convertLength)
-	case "weight": 
-	    runConvert(convertWeight)
+		runConversion(convertLength, os.Args[2], value)
+	case "weight":
+		runConversion(convertWeight, os.Args[2], value)
 	default:
-		fmt.Println("unknown command:", os.Args[1])
-		printUsage()
-		os.Exit(1)
+		fail(fmt.Sprintf("unknown category: %s", os.Args[1]))
 	}
 }
 
-func runConvert(fn func(string, float64) (string, error)) {
-	if len(os.Args) < 4 {
-		printUsage()
-		os.Exit(1)
-	}
-	value, err := strconv.ParseFloat(os.Args[3], 64)
+func runConversion(fn conversionFunc, mode string, value float64) {
+	out, err := fn(mode, value)
 	if err != nil {
-		fmt.Println("value must be a number:", os.Args[3])
-		os.Exit(1)
-	}
-	out, err := fn(os.Args[2], value)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		fail(err.Error())
 	}
 	fmt.Println(out)
 }
 
+func isHelpArg(arg string) bool {
+	switch strings.ToLower(arg) {
+	case "-h", "--help", "help":
+		return true
+	default:
+		return false
+	}
+}
+
+func fail(message string) {
+	fmt.Fprintln(os.Stderr, "error:", message)
+	printUsage()
+	os.Exit(1)
+}
+
 func printUsage() {
-	fmt.Println("Usage: unit-converter <temp|len|weight> <conversion> <value>")
+	fmt.Println("unit-converter-cli")
+	fmt.Println()
+	fmt.Println("Usage:")
+	fmt.Println("  unit-converter <temp|len|weight> <conversion> <value>")
+	fmt.Println("  unit-converter --help")
+	fmt.Println()
+	fmt.Println("Examples:")
+	fmt.Println("  unit-converter temp c2f 100")
+	fmt.Println("  unit-converter temp f2c 32")
+	fmt.Println("  unit-converter len m2ft 10")
+	fmt.Println("  unit-converter weight kg2lb 5")
 }
