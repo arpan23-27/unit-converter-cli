@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+type conversionFunc func(string, float64) (string, error)
+
 func main() {
 	if len(os.Args) < 2 || isHelpArg(os.Args[1]) {
 		printUsage()
